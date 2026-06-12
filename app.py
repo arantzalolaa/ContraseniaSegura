@@ -255,7 +255,26 @@ def validate_password(ev=None):
         ok_msg.classList.remove('show')
 
 
+def agregar_boton_gherkin():
+    header = document.select_one('.header')
+    boton = document.createElement('a')
+    boton.href = 'gherkin.pdf'
+    boton.target = '_blank'
+    boton.textContent = 'Ver Gherkin'
+    boton.style.display = 'inline-flex'
+    boton.style.marginTop = '16px'
+    boton.style.padding = '10px 22px'
+    boton.style.borderRadius = '8px'
+    boton.style.background = '#c8556d'
+    boton.style.color = 'white'
+    boton.style.textDecoration = 'none'
+    boton.style.fontWeight = '500'
+    header <= boton
+
+
 def preparar_eventos():
+    agregar_boton_gherkin()
+
     element('btnGen').bind('click', lambda ev: go_to('gen'))
     element('btnVal').bind('click', lambda ev: go_to('val'))
 
