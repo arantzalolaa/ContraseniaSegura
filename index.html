@@ -12,12 +12,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
   <link rel="stylesheet" href="style.css">
 
-  <!-- PyScript -->
-  <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css">
-  <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
+  <!-- Brython permite ejecutar Python dentro del navegador -->
+  <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
 </head>
 
-<body>
+<body onload="brython()">
 
   <div class="firma">
     <span>Arantza Lizárraga Somoza &nbsp;|&nbsp; TI-9-1</span>
@@ -71,13 +71,13 @@
         <input type="text" id="w3" placeholder="ej. sol">
       </div>
 
-      <button class="btn-primary" id="btnGenerate">
+      <button class="btn-primary" id="btnGenerate" type="button">
         <i class="ti ti-refresh"></i> Generar contraseñas
       </button>
 
       <div id="pass-results" class="pass-cards" style="display:none;"></div>
 
-      <button class="btn-outline btnHome">
+      <button class="btn-outline btnHome" type="button">
         <i class="ti ti-arrow-left"></i> Volver al inicio
       </button>
     </div>
@@ -91,7 +91,7 @@
         <label for="valInput">Contraseña</label>
         <div class="val-wrap">
           <input type="password" id="valInput" placeholder="Escribe tu contraseña aquí...">
-          <button class="toggle-vis" id="btnToggle" aria-label="Mostrar u ocultar contraseña">
+          <button class="toggle-vis" id="btnToggle" type="button" aria-label="Mostrar u ocultar contraseña">
             <i class="ti ti-eye" id="eyeIco"></i>
           </button>
         </div>
@@ -120,15 +120,15 @@
         Contraseña segura. Cumple con todos los requisitos recomendados.
       </div>
 
-      <button class="btn-outline btnHome">
+      <button class="btn-outline btnHome" type="button">
         <i class="ti ti-arrow-left"></i> Volver al inicio
       </button>
     </div>
 
   </div>
 
-  <!-- Código Python -->
-  <script type="py" src="./app.py"></script>
+  <!-- Codigo Python -->
+  <script type="text/python" src="app.py"></script>
 
 </body>
 </html>
