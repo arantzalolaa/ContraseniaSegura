@@ -1,4 +1,4 @@
-from js import document, window, navigator, setTimeout
+from browser import document, alert, timer, window
 import random
 import re
 
@@ -14,25 +14,29 @@ LEET = {
 
 
 def element(id_name):
-    return document.getElementById(id_name)
+    return document[id_name]
 
 
 def go_to(nombre):
     pantallas = ['home', 'gen', 'val']
 
     for pantalla in pantallas:
-        element(f's-{pantalla}').classList.toggle('active', pantalla == nombre)
+        screen = element(f's-{pantalla}')
+        if pantalla == nombre:
+            screen.classList.add('active')
+        else:
+            screen.classList.remove('active')
 
     if nombre == 'gen':
         element('pass-results').style.display = 'none'
-        element('pass-results').innerHTML = ''
+        element('pass-results').html = ''
 
         for input_id in ['w1', 'w2', 'w3']:
             element(input_id).value = ''
 
     if nombre == 'val':
         element('valInput').value = ''
-        validate_password(None)
+        validate_password()
 
 
 def pick(lista):
@@ -75,16 +79,6 @@ def leet(palabra):
     return resultado
 
 
-def cumple_requisitos(password):
-    return (
-        len(password) >= 12 and
-        re.search(r'[A-Z]', password) and
-        re.search(r'[a-z]', password) and
-        re.search(r'[0-9]', password) and
-        re.search(r'[^A-Za-z0-9]', password)
-    )
-
-
 def completar(password):
     caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*'
 
@@ -104,19 +98,58 @@ def build_password(words, estilo):
 
     if estilo == 0:
         password = cap(a) + sym1 + cap(b) + pick_year() + sym2
-
     elif estilo == 1:
         password = cap(b) + sym1 + cap(a) + pick_num() + sym2
-
     else:
         password = alt(a) + sym1 + leet(b) + sym2 + cap(c)
 
-    password = completar(password)
-
-    return password
+    return completar(password)
 
 
-def generate_passwords(event=None):
+def copiar_password(password, index):
+    def copiar(ev):
+        try:
+            window.navigator.clipboard.writeText(password)
+        except Exception:
+            pass
+
+        mensaje = element(f'cok{index}')
+        mensaje.classList.add('show')
+
+        def ocultar():
+            mensaje.classList.remove('show')
+
+        timer.set_timeout(ocultar, 2200)
+
+    return copiar
+
+
+def mostrar_contrasenias(lista):
+    container = element('pass-results')
+    container.html = ''
+    container.style.display = 'grid'
+
+    for i, password in enumerate(lista):
+        div = document.createElement('div')
+        div.className = 'pass-card'
+        div.html = f'''
+            <div class="pass-label">Opción {i + 1}</div>
+            <div class="pass-value" id="pv{i}">{password}</div>
+            <div class="copy-row">
+                <button class="btn-copy" id="cbtn{i}" type="button">
+                    <i class="ti ti-copy"></i> Copiar
+                </button>
+                <span class="copy-ok" id="cok{i}">
+                    <i class="ti ti-check"></i> ¡Copiada!
+                </span>
+            </div>
+        '''
+
+        container <= div
+        element(f'cbtn{i}').bind('click', copiar_password(password, i))
+
+
+def generate_passwords(ev=None):
     words = []
 
     for input_id in ['w1', 'w2', 'w3']:
@@ -125,7 +158,7 @@ def generate_passwords(event=None):
             words.append(palabra)
 
     if len(words) == 0:
-        window.alert('Ingresa al menos una palabra para generar contraseñas.')
+        alert('Ingresa al menos una palabra para generar contraseñas.')
         return
 
     generadas = []
@@ -145,49 +178,7 @@ def generate_passwords(event=None):
     mostrar_contrasenias(generadas)
 
 
-def copiar_password(password, index):
-    def copiar(event=None):
-        navigator.clipboard.writeText(password)
-
-        mensaje = element(f'cok{index}')
-        mensaje.classList.add('show')
-
-        def ocultar():
-            mensaje.classList.remove('show')
-
-        setTimeout(ocultar, 2200)
-
-    return copiar
-
-
-def mostrar_contrasenias(lista):
-    container = element('pass-results')
-    container.innerHTML = ''
-    container.style.display = 'grid'
-
-    for i, password in enumerate(lista):
-        div = document.createElement('div')
-        div.className = 'pass-card'
-
-        div.innerHTML = f"""
-            <div class="pass-label">Opción {i + 1}</div>
-            <div class="pass-value" id="pv{i}">{password}</div>
-            <div class="copy-row">
-                <button class="btn-copy" id="cbtn{i}">
-                    <i class="ti ti-copy"></i> Copiar
-                </button>
-                <span class="copy-ok" id="cok{i}">
-                    <i class="ti ti-check"></i> ¡Copiada!
-                </span>
-            </div>
-        """
-
-        container.appendChild(div)
-
-        element(f'cbtn{i}').addEventListener('click', copiar_password(password, i))
-
-
-def toggle_visibility(event=None):
+def toggle_visibility(ev=None):
     input_password = element('valInput')
     icono = element('eyeIco')
 
@@ -201,7 +192,7 @@ def toggle_visibility(event=None):
 
 def set_req(id_name, cumple):
     requisito = element(id_name)
-    icono = requisito.querySelector('.ri')
+    icono = requisito.select_one('.ri')
 
     if cumple:
         requisito.className = 'req pass'
@@ -211,7 +202,7 @@ def set_req(id_name, cumple):
         icono.className = 'ti ti-x ri'
 
 
-def validate_password(event=None):
+def validate_password(ev=None):
     password = element('valInput').value
 
     checks = {
@@ -247,41 +238,39 @@ def validate_password(event=None):
         fill.style.backgroundColor = '#e8708a'
         badge.textContent = 'Débil'
         badge.className = 'str-badge d'
-
     elif score <= 4:
         fill.style.width = '62%'
         fill.style.backgroundColor = '#c89020'
         badge.textContent = 'Media'
         badge.className = 'str-badge m'
-
     else:
         fill.style.width = '100%'
         fill.style.backgroundColor = '#2d8a5e'
         badge.textContent = 'Fuerte'
         badge.className = 'str-badge f'
 
-    ok_msg.classList.toggle('show', score == 5)
+    if score == 5:
+        ok_msg.classList.add('show')
+    else:
+        ok_msg.classList.remove('show')
 
 
 def preparar_eventos():
-    element('btnGen').addEventListener('click', lambda event: go_to('gen'))
-    element('btnVal').addEventListener('click', lambda event: go_to('val'))
+    element('btnGen').bind('click', lambda ev: go_to('gen'))
+    element('btnVal').bind('click', lambda ev: go_to('val'))
 
-    element('btnGenerate').addEventListener('click', generate_passwords)
-    element('btnToggle').addEventListener('click', toggle_visibility)
-    element('valInput').addEventListener('input', validate_password)
+    element('btnGenerate').bind('click', generate_passwords)
+    element('btnToggle').bind('click', toggle_visibility)
+    element('valInput').bind('input', validate_password)
 
-    botones_home = document.querySelectorAll('.btnHome')
-    for boton in botones_home:
-        boton.addEventListener('click', lambda event: go_to('home'))
+    for boton in document.select('.btnHome'):
+        boton.bind('click', lambda ev: go_to('home'))
 
-    tarjetas = document.querySelectorAll('.nav-card')
-    for tarjeta in tarjetas:
-        def key_event(event, card=tarjeta):
-            if event.key == 'Enter' or event.key == ' ':
+    for tarjeta in document.select('.nav-card'):
+        def key_event(ev, card=tarjeta):
+            if ev.key == 'Enter' or ev.key == ' ':
                 card.click()
-
-        tarjeta.addEventListener('keydown', key_event)
+        tarjeta.bind('keydown', key_event)
 
 
 preparar_eventos()
