@@ -1,0 +1,255 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [ 4 0 R 6 0 R 8 0 R ] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2073 >>
+stream
+BT
+/F1 10 Tf
+50 742 Td
+14 TL
+(Documento Gherkin - Programa de Contrasena Segura) Tj
+T*
+(Arantza Lizarraga Somoza | TI-9-1 | Seguridad Informatica) Tj
+T*
+() Tj
+T*
+(Feature: Navegacion principal del programa) Tj
+T*
+(  Como usuario del sistema) Tj
+T*
+(  Quiero elegir entre generar o validar una contrasena) Tj
+T*
+(  Para utilizar la funcion que necesito) Tj
+T*
+() Tj
+T*
+(  Scenario: Abrir el modulo generador) Tj
+T*
+(    Given que el usuario esta en la pantalla principal) Tj
+T*
+(    When selecciona la opcion "Generador") Tj
+T*
+(    Then el sistema debe mostrar la pantalla del generador de contrasenas) Tj
+T*
+() Tj
+T*
+(  Scenario: Abrir el modulo validador) Tj
+T*
+(    Given que el usuario esta en la pantalla principal) Tj
+T*
+(    When selecciona la opcion "Validador") Tj
+T*
+(    Then el sistema debe mostrar la pantalla del validador de contrasenas) Tj
+T*
+() Tj
+T*
+(  Scenario: Regresar al inicio) Tj
+T*
+(    Given que el usuario esta en cualquier modulo) Tj
+T*
+(    When presiona el boton "Volver al inicio") Tj
+T*
+(    Then el sistema debe mostrar nuevamente la pantalla principal) Tj
+T*
+() Tj
+T*
+(Feature: Generador de contrasenas seguras) Tj
+T*
+(  Como usuario) Tj
+T*
+(  Quiero generar contrasenas a partir de palabras base) Tj
+T*
+(  Para obtener opciones mas seguras y faciles de recordar) Tj
+T*
+() Tj
+T*
+(  Scenario: Generar contrasenas con una palabra) Tj
+T*
+(    Given que el usuario esta en la pantalla del generador) Tj
+T*
+(    When escribe "casa" en el campo Palabra 1) Tj
+T*
+(    And presiona el boton "Generar contrasenas") Tj
+T*
+(    Then el sistema debe mostrar tres opciones de contrasena) Tj
+T*
+(    And cada contrasena debe tener minimo 12 caracteres) Tj
+T*
+(    And cada contrasena debe incluir letras, numeros y simbolos) Tj
+T*
+() Tj
+T*
+(  Scenario: Generar contrasenas con tres palabras) Tj
+T*
+(    Given que el usuario esta en la pantalla del generador) Tj
+T*
+(    When escribe "casa" en Palabra 1) Tj
+T*
+(    And escribe "azul" en Palabra 2) Tj
+T*
+(    And escribe "sol" en Palabra 3) Tj
+T*
+(    And presiona el boton "Generar contrasenas") Tj
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2078 >>
+stream
+BT
+/F1 10 Tf
+50 742 Td
+14 TL
+(    Then el sistema debe mostrar tres contrasenas diferentes) Tj
+T*
+(    And las contrasenas deben combinar palabras, numeros y simbolos) Tj
+T*
+() Tj
+T*
+(  Scenario: Intentar generar sin palabras) Tj
+T*
+(    Given que el usuario esta en la pantalla del generador) Tj
+T*
+(    When deja vacios los campos de palabras) Tj
+T*
+(    And presiona el boton "Generar contrasenas") Tj
+T*
+(    Then el sistema debe mostrar un mensaje de alerta) Tj
+T*
+(    And no debe generar contrasenas) Tj
+T*
+() Tj
+T*
+(Feature: Validador de contrasenas) Tj
+T*
+(  Como usuario) Tj
+T*
+(  Quiero revisar si una contrasena es segura) Tj
+T*
+(  Para saber si cumple con los requisitos recomendados) Tj
+T*
+() Tj
+T*
+(  Scenario: Validar una contrasena debil) Tj
+T*
+(    Given que el usuario esta en la pantalla del validador) Tj
+T*
+(    When escribe la contrasena "casa123") Tj
+T*
+(    Then el sistema debe marcar la contrasena como debil) Tj
+T*
+(    And debe mostrar los requisitos que no se cumplen) Tj
+T*
+() Tj
+T*
+(  Scenario: Validar una contrasena media) Tj
+T*
+(    Given que el usuario esta en la pantalla del validador) Tj
+T*
+(    When escribe la contrasena "CasaAzul2026") Tj
+T*
+(    Then el sistema debe marcar la contrasena como media) Tj
+T*
+(    And debe indicar que falta al menos un simbolo especial) Tj
+T*
+() Tj
+T*
+(  Scenario: Validar una contrasena fuerte) Tj
+T*
+(    Given que el usuario esta en la pantalla del validador) Tj
+T*
+(    When escribe la contrasena "Casa#Azul2026!") Tj
+T*
+(    Then el sistema debe marcar la contrasena como fuerte) Tj
+T*
+(    And debe mostrar que cumple con todos los requisitos) Tj
+T*
+(    And debe aparecer el mensaje de contrasena segura) Tj
+T*
+() Tj
+T*
+(Feature: Requisitos de seguridad) Tj
+T*
+(  Como usuario) Tj
+T*
+(  Quiero ver que requisitos cumple mi contrasena) Tj
+T*
+(  Para mejorarla antes de usarla) Tj
+T*
+() Tj
+T*
+(  Scenario: Revisar longitud minima) Tj
+T*
+(    Given que el usuario escribe una contrasena menor a 12 caracteres) Tj
+T*
+(    Then el requisito "Minimo 12 caracteres" debe aparecer como no cumplido) Tj
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 649 >>
+stream
+BT
+/F1 10 Tf
+50 742 Td
+14 TL
+() Tj
+T*
+(  Scenario: Revisar uso de mayusculas) Tj
+T*
+(    Given que el usuario escribe una contrasena sin letras mayusculas) Tj
+T*
+(    Then el requisito "Al menos una letra mayuscula" debe aparecer como no cumplido) Tj
+T*
+() Tj
+T*
+(  Scenario: Revisar uso de simbolos) Tj
+T*
+(    Given que el usuario escribe una contrasena sin simbolos especiales) Tj
+T*
+(    Then el requisito "Al menos un simbolo especial" debe aparecer como no cumplido) Tj
+T*
+() Tj
+T*
+(Conclusion:) Tj
+T*
+(  Estos escenarios permiten comprobar la navegacion, generacion, validacion) Tj
+T*
+(  y retroalimentacion de seguridad del programa.) Tj
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000129 00000 n 
+0000000197 00000 n 
+0000000323 00000 n 
+0000002447 00000 n 
+0000002573 00000 n 
+0000004702 00000 n 
+0000004828 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+5527
+%%EOF
